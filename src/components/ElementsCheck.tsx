@@ -1,6 +1,4 @@
-const partyMembersElements = ["Ice", "Elec"];
-
-function ElementsCheck() {
+function ElementsCheck({ elements }: { elements: string[] | undefined }) {
     const allElements = ["Phys", "Gun", "Fire", "Ice", "Elec", "Wind", "Psychic", "Nuke", "Light", "Death"];
 
     function OkIcon() {
@@ -15,13 +13,15 @@ function ElementsCheck() {
         )
     }
 
+    console.log(elements);
+
     return (
         <>
         {allElements.map(element => (
             <div key={element}>
                 {element}
                 <div>
-                    {partyMembersElements.includes(element)?OkIcon():MissingIcon()}
+                    {elements?.includes(element)?OkIcon():MissingIcon()}
                 </div>
             </div>
         ))}

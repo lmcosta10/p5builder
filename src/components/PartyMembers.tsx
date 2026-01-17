@@ -1,6 +1,18 @@
 import { useState } from "react";
 
-function PartyMembers() {
+const elementMapTable: Record<string, string> = {
+    Ryuji: "Elec",
+    Morgana: "Wind",
+    Ann: "Fire",
+    Yusuke: "Ice",
+    Makoto: "Nuke"
+};
+
+function PartyMembers(
+    {onSelect}: {
+        onSelect: React.Dispatch<React.SetStateAction<string[] | undefined>>;
+    }
+) {
     const [selectedMembers, setSelectedMembers] = useState<string[]>(["", "", ""]);
     const allMembers = ["Ryuji", "Morgana", "Ann", "Yusuke", "Makoto"];
 
@@ -8,6 +20,8 @@ function PartyMembers() {
         setSelectedMembers(oldSelectedMembers => {
             const newSelectedMembers = [...oldSelectedMembers];
             newSelectedMembers[index - 1] = newMember;
+
+            onSelect(() => newSelectedMembers.map(s => elementMapTable[s]));
 
             return newSelectedMembers;
         });
