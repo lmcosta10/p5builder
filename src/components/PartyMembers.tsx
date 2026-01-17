@@ -8,9 +8,15 @@ const elementMapTable: Record<string, string> = {
     Makoto: "Nuke"
 };
 
+const debuffMap : Record<string, string[]> = {
+    "Ann": ["Decrease attack", "Remove buffs", "Sleep"],
+    "Makoto": ["Forget"]
+};
+
 function PartyMembers(
-    {onSelect}: {
-        onSelect: React.Dispatch<React.SetStateAction<string[] | undefined>>;
+    {onSelectElements, onSelectDebuffs}: {
+        onSelectElements: React.Dispatch<React.SetStateAction<string[] | undefined>>;
+        onSelectDebuffs: React.Dispatch<React.SetStateAction<string[] | undefined>>;
     }
 ) {
     const [selectedMembers, setSelectedMembers] = useState<string[]>(["", "", ""]);
@@ -21,7 +27,8 @@ function PartyMembers(
             const newSelectedMembers = [...oldSelectedMembers];
             newSelectedMembers[index - 1] = newMember;
 
-            onSelect(() => newSelectedMembers.map(s => elementMapTable[s]));
+            onSelectElements(() => newSelectedMembers.map(s => elementMapTable[s]));
+            onSelectDebuffs(newSelectedMembers.flatMap(s => debuffMap[s]));
 
             return newSelectedMembers;
         });
@@ -29,20 +36,27 @@ function PartyMembers(
 
     function partyMembersSelection(index: number) {
         return (
-            <select
-                value={selectedMembers[index - 1]}
-                onChange={(e) => changeMembers(index, e.target.value)}
-            >
-                <option value="">Select...</option>
-                {allMembers
-                    .filter(member => !selectedMembers.includes(member) ||
-                    member === selectedMembers[index - 1]) // when selected
-                    .map(member => (
-                    <option key={member} value={member}>
-                        {member}
-                    </option>
-                ))}
-            </select>
+            <div className="flex">
+                <select
+                    value={selectedMembers[index - 1]}
+                    onChange={(e) => changeMembers(index, e.target.value)}
+                >
+                    <option value="">Select...</option>
+                    {allMembers
+                        .filter(member => !selectedMembers.includes(member) ||
+                        member === selectedMembers[index - 1]) // when selected
+                        .map(member => (
+                            <option key={member} value={member}>
+                                {member}
+                            </option>
+                    ))}
+                </select>
+
+                <form action="">
+                    <label>[TODO] Level: </label>
+                    <input type="number" className="w-10" max="99" min="1"></input>
+                </form>
+            </div>
         )
     }
 

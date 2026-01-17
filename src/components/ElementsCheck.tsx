@@ -16,6 +16,7 @@ function ElementsCheck({ jokerElements, membersElements }:
 
     return (
         <div className="pt-4">
+        <div className="font-semibold">Elements:</div>
         {allElements.map(element => (
             <div key={element} className="flex gap-2">
                 {element}
