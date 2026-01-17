@@ -9,8 +9,10 @@ const elementMapTable: Record<string, string> = {
 };
 
 const debuffMap : Record<string, string[]> = {
-    "Ann": ["Decrease attack", "Remove buffs", "Sleep"],
-    "Makoto": ["Forget"]
+    "Ann": ["Decrease attack", "Remove buffs", "Sleep", "Burn"],
+    "Makoto": ["Forget"],
+    "Morgana": ["Confuse"],
+    "Yusuke": ["Freeze"]
 };
 
 function PartyMembers(
@@ -37,7 +39,7 @@ function PartyMembers(
     function partyMembersSelection(index: number) {
         return (
             <div className="flex">
-                <select
+                <select className="w-40"
                     value={selectedMembers[index - 1]}
                     onChange={(e) => changeMembers(index, e.target.value)}
                 >
@@ -62,7 +64,8 @@ function PartyMembers(
 
     return (
         <div className="pt-4">
-            <div>Select your party members:
+            <div>
+                <div className="font-semibold">Select your party members:</div>
                 <div>{partyMembersSelection(1)}</div>
                 <div>{partyMembersSelection(2)}</div>
                 <div>{partyMembersSelection(3)}</div>

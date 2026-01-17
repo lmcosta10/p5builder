@@ -1,6 +1,6 @@
 function ElementsCheck({ jokerElements, membersElements }:
     { jokerElements: string[] | undefined, membersElements: string[] | undefined }) {
-    const allElements = ["Phys", "Gun", "Fire", "Ice", "Elec", "Wind", "Psychic", "Nuke", "Light", "Death"];
+    const allElements = ["Phys", "Gun", "Fire", "Ice", "Elec", "Wind", "Psychic", "Nuke", "Bless", "Curse"];
 
     function OkIcon() {
         return (
@@ -15,7 +15,7 @@ function ElementsCheck({ jokerElements, membersElements }:
     }
 
     return (
-        <div className="pt-4">
+        <div>
         <div className="font-semibold">Elements:</div>
         {allElements.map(element => (
             <div key={element} className="flex gap-2">

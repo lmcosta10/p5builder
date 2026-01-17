@@ -3,16 +3,18 @@ import { useState } from "react";
 const elementMapTable: Record<string, string> = {
     Matador: "Psychic",
     "Jack Frost": "Ice",
-    Archangel: "Light",
+    Archangel: "Bless",
     Makami: "Nuke",
     Pixie: "Elec",
     "Jack-o'-Lantern": "Fire",
-    "Leanan Sidhe": "Psychic"
+    "Leanan Sidhe": "Psychic",
+    "Izanagi Picaro": "Phys"
 };
 
 const debuffMap : Record<string, string[]> = {
     "Archangel": ["Dizzy"],
-    "Matador": ["Decrease attack", "Decrease accuracy"]
+    "Matador": ["Decrease attack", "Decrease accuracy"],
+    "Jack Frost": ["Decrease defense", "Freeze"]
 };
 
 function JokerPersonas(
@@ -39,7 +41,7 @@ function JokerPersonas(
     function personasSelection(index: number) {
         return (
             <div className="flex">
-                <select
+                <select className="w-40"
                     value={selectedPersonas[index - 1]}
                     onChange={(e) => changePersonas(index, e.target.value)}
                 >
@@ -64,10 +66,18 @@ function JokerPersonas(
 
     return (
         <>
-            <div>Select your personas:
-                <div>{personasSelection(1)}</div>
-                <div>{personasSelection(2)}</div>
-                <div>{personasSelection(3)}</div>
+            <div>
+                <div className="font-semibold">Select your personas:</div>
+                {personasSelection(1)}
+                {personasSelection(2)}
+                {personasSelection(3)}
+                {personasSelection(4)}
+                {personasSelection(5)}
+                {personasSelection(6)}
+                {personasSelection(7)}
+                {personasSelection(8)}
+                {personasSelection(9)}
+                {personasSelection(10)}
             </div>
         </>
     )
