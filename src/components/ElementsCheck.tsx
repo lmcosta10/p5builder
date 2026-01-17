@@ -4,28 +4,28 @@ function ElementsCheck({ jokerElements, membersElements }:
 
     function OkIcon() {
         return (
-            <p>OK</p>
+            <div className="text-green-900">OK</div>
         )
     }
 
     function MissingIcon() {
         return (
-            <p>Missing</p>
+            <div className="text-red-500">Missing</div>
         )
     }
 
     return (
-        <>
+        <div className="pt-4">
         {allElements.map(element => (
-            <div key={element}>
+            <div key={element} className="flex gap-2">
                 {element}
-                <div>
-                    {jokerElements?.includes(element)?OkIcon():
-                    membersElements?.includes(element)?OkIcon():MissingIcon()}
-                </div>
+                {
+                    jokerElements?.includes(element)?OkIcon():
+                    membersElements?.includes(element)?OkIcon():MissingIcon()
+                }
             </div>
         ))}
-        </>
+        </div>
     )
 }
 

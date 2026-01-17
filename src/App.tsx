@@ -11,11 +11,11 @@ function App() {
   const [membersElements, setMembersElements] = useState<string[]>();
 
   return (
-    <>
+    <div className="p-2">
       <JokerPersonas onSelect={setJokerElementslements} />
       <PartyMembers onSelect={setMembersElements} />
       <ElementsCheck jokerElements={jokerElements} membersElements={membersElements} />
-    </>
+    </div>
   )
 }
 

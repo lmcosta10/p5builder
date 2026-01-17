@@ -47,13 +47,13 @@ function PartyMembers(
     }
 
     return (
-        <>
+        <div className="pt-4">
             <div>Select your party members:
                 <div>{partyMembersSelection(1)}</div>
                 <div>{partyMembersSelection(2)}</div>
                 <div>{partyMembersSelection(3)}</div>
             </div>
-        </>
+        </div>
     )
 }
 
