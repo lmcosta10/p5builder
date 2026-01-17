@@ -1,4 +1,5 @@
-function ElementsCheck({ elements }: { elements: string[] | undefined }) {
+function ElementsCheck({ jokerElements, membersElements }:
+    { jokerElements: string[] | undefined, membersElements: string[] | undefined }) {
     const allElements = ["Phys", "Gun", "Fire", "Ice", "Elec", "Wind", "Psychic", "Nuke", "Light", "Death"];
 
     function OkIcon() {
@@ -13,15 +14,14 @@ function ElementsCheck({ elements }: { elements: string[] | undefined }) {
         )
     }
 
-    console.log(elements);
-
     return (
         <>
         {allElements.map(element => (
             <div key={element}>
                 {element}
                 <div>
-                    {elements?.includes(element)?OkIcon():MissingIcon()}
+                    {jokerElements?.includes(element)?OkIcon():
+                    membersElements?.includes(element)?OkIcon():MissingIcon()}
                 </div>
             </div>
         ))}
