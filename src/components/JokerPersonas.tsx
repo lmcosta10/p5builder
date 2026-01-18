@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, type ChangeEvent } from "react";
+import { debuffMap } from '../maps/PersonasMaps';
 
 const elementMapTable: Record<string, string> = {
     Matador: "Psychic",
@@ -11,12 +12,6 @@ const elementMapTable: Record<string, string> = {
     "Izanagi Picaro": "Phys"
 };
 
-const debuffMap : Record<string, string[]> = {
-    "Archangel": ["Dizzy"],
-    "Matador": ["Decrease attack", "Decrease accuracy"],
-    "Jack Frost": ["Decrease defense", "Freeze"]
-};
-
 function JokerPersonas(
     {onSelectElements, onSelectDebuffs}: {
         onSelectElements: React.Dispatch<React.SetStateAction<string[] | undefined>>;
@@ -24,6 +19,7 @@ function JokerPersonas(
     }
 ) {
     const [selectedPersonas, setSelectedPersonas] = useState<string[]>(["", "", ""]);
+    const [, setSelectedLevels] = useState<string[]>(["", "", ""]);
     const allPersonas = ["Matador", "Jack Frost", "Archangel", "Makami", "Pixie", "Jack-o'-Lantern", "Leanan Sidhe"];
 
     function changePersonas(index: number, newPersona: string) {
@@ -32,9 +28,34 @@ function JokerPersonas(
             newSelectedPersonas[index - 1] = newPersona;
 
             onSelectElements(() => newSelectedPersonas.map(s => elementMapTable[s]));
-            onSelectDebuffs(newSelectedPersonas.flatMap(s => debuffMap[s]));
 
             return newSelectedPersonas;
+        });
+    }
+
+    function getDebuff(persona: string, level: string) {
+        const levelAsNum = Number(level);
+        
+        const debuffKeys = Object.keys(debuffMap)
+        .filter(s => s.startsWith(`${persona}-`))
+        .map(s => ({
+            level: Number(s.split("-")[1]),
+            value: debuffMap[s],
+        }))
+        .filter(s => s.level <= levelAsNum)
+        .sort((a, b) => b.level - a.level); // get highest
+
+        return debuffKeys[0]?.value ?? [];
+    }
+
+    function handleLevelChange(e: ChangeEvent<HTMLInputElement>, index: number) {
+        setSelectedLevels(oldSelectedLevels => {
+            const newSelectedLevels = [...oldSelectedLevels];
+            newSelectedLevels[index - 1] = e.target.value;
+
+            onSelectDebuffs(selectedPersonas.flatMap((s, ind) => getDebuff(s, newSelectedLevels[ind])));
+
+            return newSelectedLevels;
         });
     }
 
@@ -56,10 +77,10 @@ function JokerPersonas(
                     ))}
                 </select>
 
-                <form action="">
-                    <label>[TODO] Level: </label>
-                    <input type="number" className="w-10" max="99" min="1"></input>
-                </form>
+                <div>
+                    <label>Level: </label>
+                    <input type="number" className="w-10" max="99" min="1" onChange={(e) => handleLevelChange(e, index)}></input>
+                </div>
             </div>
         )
     }

@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, type ChangeEvent } from "react";
+import { debuffMap } from '../maps/MembersMaps';
 
 const elementMapTable: Record<string, string> = {
     Ryuji: "Elec",
@@ -8,13 +9,6 @@ const elementMapTable: Record<string, string> = {
     Makoto: "Nuke"
 };
 
-const debuffMap : Record<string, string[]> = {
-    "Ann": ["Decrease attack", "Remove buffs", "Sleep", "Burn"],
-    "Makoto": ["Forget"],
-    "Morgana": ["Confuse"],
-    "Yusuke": ["Freeze"]
-};
-
 function PartyMembers(
     {onSelectElements, onSelectDebuffs}: {
         onSelectElements: React.Dispatch<React.SetStateAction<string[] | undefined>>;
@@ -22,6 +16,7 @@ function PartyMembers(
     }
 ) {
     const [selectedMembers, setSelectedMembers] = useState<string[]>(["", "", ""]);
+    const [, setSelectedLevels] = useState<string[]>(["", "", ""]);
     const allMembers = ["Ryuji", "Morgana", "Ann", "Yusuke", "Makoto"];
 
     function changeMembers(index: number, newMember: string) {
@@ -30,9 +25,34 @@ function PartyMembers(
             newSelectedMembers[index - 1] = newMember;
 
             onSelectElements(() => newSelectedMembers.map(s => elementMapTable[s]));
-            onSelectDebuffs(newSelectedMembers.flatMap(s => debuffMap[s]));
 
             return newSelectedMembers;
+        });
+    }
+
+    function getDebuff(member: string, level: string) {
+        const levelAsNum = Number(level);
+
+        const debuffKeys = Object.keys(debuffMap)
+        .filter(s => s.startsWith(`${member}-`))
+        .map(s => ({
+            level: Number(s.split("-")[1]),
+            value: debuffMap[s],
+        }))
+        .filter(s => s.level <= levelAsNum)
+        .sort((a, b) => b.level - a.level); // get highest
+
+        return debuffKeys[0]?.value ?? [];
+    }
+
+    function handleLevelChange(e: ChangeEvent<HTMLInputElement>, index: number) {
+        setSelectedLevels(oldSelectedLevels => {
+            const newSelectedLevels = [...oldSelectedLevels];
+            newSelectedLevels[index - 1] = e.target.value;
+
+            onSelectDebuffs(selectedMembers.flatMap((s, ind) => getDebuff(s, newSelectedLevels[ind])));
+
+            return newSelectedLevels;
         });
     }
 
@@ -54,10 +74,10 @@ function PartyMembers(
                     ))}
                 </select>
 
-                <form action="">
-                    <label>[TODO] Level: </label>
-                    <input type="number" className="w-10" max="99" min="1"></input>
-                </form>
+                <div>
+                    <label>Level: </label>
+                    <input type="number" className="w-10" max="99" min="1" onChange={(e) => handleLevelChange(e, index)}></input>
+                </div>
             </div>
         )
     }

@@ -1,4 +1,4 @@
-Check your Persona 5 build.
+Check your Persona 5 Royal build.
 
 Check elements, debuffs and buffs you have in your party.
 
