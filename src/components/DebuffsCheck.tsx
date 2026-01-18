@@ -1,7 +1,7 @@
 function DebuffsCheck({ jokerDebuffs, membersDebuffs }:
     { jokerDebuffs: string[] | undefined, membersDebuffs: string[] | undefined }) {
     const allDebuffs = ["Remove buffs", "Decrease attack", "Decrease defense",
-        "Decrease accuracy", "Dizzy", "Confuse", "Sleep", "Forget", "Burn", "Freeze"];
+        "Decrease accuracy", "Dizzy", "Confuse", "Sleep", "Forget", "Burn", "Freeze", "Shock"];
 
     function OkIcon() {
         return (

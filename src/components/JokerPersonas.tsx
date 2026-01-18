@@ -62,7 +62,7 @@ function JokerPersonas(
     function personasSelection(index: number) {
         return (
             <div className="flex">
-                <select className="w-40"
+                <select className="w-40 border border-gray-300 rounded-md mt-1"
                     value={selectedPersonas[index - 1]}
                     onChange={(e) => changePersonas(index, e.target.value)}
                 >
@@ -77,9 +77,10 @@ function JokerPersonas(
                     ))}
                 </select>
 
-                <div>
+                <div className="pl-1">
                     <label>Level: </label>
-                    <input type="number" className="w-10" max="99" min="1" onChange={(e) => handleLevelChange(e, index)}></input>
+                    <input type="number" className="w-12 p-1 border border-gray-300 rounded-md mt-1"
+                    max="99" min="1" onChange={(e) => handleLevelChange(e, index)}></input>
                 </div>
             </div>
         )
